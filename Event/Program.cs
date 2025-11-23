@@ -1,29 +1,25 @@
-var builder = WebApplication.CreateBuilder(args);
+global using Event;
+global using Event.Models;
+using Microsoft;
 
-// Add services to the container.
+var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
+builder.Services.AddSqlServer<DB>($@"
+    Data Source=(localDB)\MSSQLLocalDB;
+    AttachDbFilename={builder.Environment.ContentRootPath}\EventDB.mdf;
+    Initial Catalog=EventDB_AttachTest;
+    Integrated Security=True;
+");
+
+builder.Services.AddAuthentication().AddCookie();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSession();
 
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
-
 app.UseHttpsRedirection();
-app.UseRouting();
+app.UseStaticFiles();
+app.UseRequestLocalization("en-MY");
+app.UseSession();
 
-app.UseAuthorization();
-
-app.MapStaticAssets();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
-
-
+app.MapDefaultControllerRoute();
 app.Run();
