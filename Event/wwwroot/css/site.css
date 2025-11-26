@@ -133,6 +133,7 @@ body {
     margin: 0 auto;
     padding: 2rem;
     min-height: calc(100vh - 200px);
+    padding-bottom: 15vh;
 }
 
 /* Hero Section */
@@ -167,6 +168,7 @@ body {
     text-align: center;
     border-top: 2px solid var(--gold);
     margin-top: 4rem;
+    position: relative !important;
 }
 
 .footer-content {
