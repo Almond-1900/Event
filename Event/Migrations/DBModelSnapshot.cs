@@ -22,7 +22,27 @@ namespace Event.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Event.Models.Event", b =>
+            modelBuilder.Entity("Event.Models.EventPhoto", b =>
+                {
+                    b.Property<int>("EventPhotoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventPhotoId"));
+
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PhotoUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("EventPhotoId");
+
+                    b.ToTable("EventPhotos");
+                });
+
+            modelBuilder.Entity("Event.Models.Events", b =>
                 {
                     b.Property<int>("EventId")
                         .ValueGeneratedOnAdd()
@@ -46,8 +66,9 @@ namespace Event.Migrations
                     b.Property<DateTime>("StartT")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("TotalTicket")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("VenueId")
                         .HasColumnType("int");
@@ -130,6 +151,32 @@ namespace Event.Migrations
                     b.HasKey("TicketId");
 
                     b.ToTable("Tickets");
+                });
+
+            modelBuilder.Entity("Event.Models.TicketType", b =>
+                {
+                    b.Property<int>("TicketTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TicketTypeId"));
+
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TypeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("TicketTypeId");
+
+                    b.ToTable("TicketTypes");
                 });
 
             modelBuilder.Entity("Event.Models.Users", b =>

@@ -1,28 +1,51 @@
+using Event.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+namespace Event;
 
-namespace Event.Controllers
+public class HomeController : Controller
 {
-    public class HomeController : Controller
+    private readonly DB db;
+    private readonly FirebaseDbService firebase;
+    public HomeController(DB db)
     {
-        private readonly DB db;
-        public HomeController(DB db)
-        {
-            this.db = db;
-        }
-
-        public IActionResult Index()
-        {
-            return View();
-        }
-        public IActionResult Ocreate()
-        {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+        this.db = db;
+        firebase = new FirebaseDbService();
     }
+
+    public IActionResult Index()
+    {
+        return View();
+    }
+
+    // GET: Home/Both
+    [Authorize]
+    public IActionResult Both()
+    {
+        return View();
+    }
+
+    // GET: Home/Student
+    [Authorize(Roles = "Student")]
+    public IActionResult Student()
+    {
+        return View();
+    }
+
+    // GET: Home/Faculty
+    [Authorize(Roles = "Central")]
+    public IActionResult Central()
+    {
+        return View();
+    }
+
+    // GET: Home/Teacher
+    [Authorize(Roles = "Teacher")]
+    public IActionResult Teacher()
+
+    {
+        return View();
+    }
+
 }
+
