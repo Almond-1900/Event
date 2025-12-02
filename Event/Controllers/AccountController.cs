@@ -7,12 +7,10 @@ public class AccountController : Controller
 {
     private readonly DB db;
     private readonly Helper hp;
-    private readonly FirebaseDbService firebase;
     public AccountController(DB db, Helper hp)
     {
         this.db = db;
         this.hp = hp;
-        firebase = new FirebaseDbService();
     }
 
     // GET: Account/Login
